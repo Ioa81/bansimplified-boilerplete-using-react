@@ -73,6 +73,21 @@ Here's a breakdown of what each folder in the project is for:
 
     *   **`services/`**: Used for API communication logic. This is where you would put your functions for making API calls (e.g., using `fetch` or `axios`) to interact with backend services like Supabase.
 
+## Tech Stack
+
+This project is built using the following technologies:
+
+- **Frontend Framework**: React (v19.2.0) with TypeScript
+- **Build Tool**: Vite (v7.2.4)
+- **Styling**: Tailwind CSS (v3.4.18) with PostCSS and Autoprefixer
+- **Routing**: React Router DOM (v7.10.1)
+- **Backend & Authentication**: Supabase (@supabase/supabase-js v2.86.2)
+- **HTTP Client**: Axios (v1.13.2)
+- **Icons**: Lucide React (v0.555.0)
+- **Validation**: Zod (v4.1.13)
+- **UI Components**: shadcn/ui (based on components.json)
+- **Utilities**: clsx, tailwind-merge, class-variance-authority, tailwindcss-animate
+- **Development Tools**: ESLint, TypeScript, PostCSS
 
 # Project Setup with Supabase and Google OAuth
 
