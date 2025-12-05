@@ -8,8 +8,8 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: true,
-    flowType: 'pkce', // Important for CORS issues
-    storageKey: 'auth', // Optional: custom storage key
+    flowType: 'pkce',
+    storageKey: 'auth',
     storage: typeof window !== 'undefined' ? localStorage : undefined,
   },
   global: {
