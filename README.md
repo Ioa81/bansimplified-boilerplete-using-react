@@ -1,3 +1,4 @@
+```bash
 bansimplified-boilerplate-using-react/
 │
 ├─ public/                 # Static files
@@ -50,6 +51,7 @@ bansimplified-boilerplate-using-react/
 ├─ tsconfig.json         # Main TypeScript configuration
 ├─ tsconfig.node.json    # TypeScript config for Node/bundler code
 └── vite.config.ts        # Vite build tool configuration
+```
 
 ## Folder Structure Explained
 
