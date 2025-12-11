@@ -1,5 +1,5 @@
 // hooks/useLogout.ts
-import { supabase } from '@/lib/supebase';
+import { supabase } from '@/lib/supabase';
 import { useNavigate } from 'react-router-dom';
 
 export const useLogout = () => {
