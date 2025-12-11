@@ -1,71 +1,61 @@
 ```bash
-bansimplified-boilerplate-using-react/
+bansimplified-react-boilerplate/
 │
 ├─ public/                 # Static files
 │   └── vite.svg           # Vite logo/placeholder image
 ├─ src/                    # Source code
-│   ├─ app/               # Page components for routing (using React Router with file-based routing)
-│   │   ├─ NotFound.tsx
-│   │   ├─ (auth)/        # Auth-related pages (LoginAccount.tsx, SignUpAccount.tsx, AuthCallback.tsx)
-│   │   ├─ (dashboard)/   # Dashboard pages (e.g., admin/Dashboard.tsx)
-│   │   ├─ (infromation)/ # Information pages
-│   │   └─ (root)/        # Root pages (e.g., AboutUs.tsx, ContactUs.tsx, Menu.tsx)
-│   ├─ assets/            # Static assets (images, icons, fonts)
+│   ├─ App.tsx             # Main App component
+│   ├─ index.css           # Global CSS styles (includes Tailwind directives)
+│   ├─ main.tsx            # Application entry point (renders React to DOM)
+│   ├─ assets/             # Static assets (images, icons, fonts)
 │   │   └── react.svg
-│   ├─ components/        # Reusable UI components (Button, Card, Modal, etc.)
+│   ├─ components/         # Reusable UI components (Button, Card, Modal, etc.)
 │   │   ├─ layout/
+│   │   │   └── LoadingPage.tsx
 │   │   └─ ui/
-│   ├─ contexts/          # React contexts for state management
-│   │   └── TanstackProvider.tsx
-│   ├─ db/                # Database-related code and API definitions
-│   │   └─ api/
-│   │       └── auth.api.ts
-│   ├─ hooks/             # Custom React hooks
+│   ├─ contexts/           # React contexts for state management
+│   │   └── TanstackProvider.tsx  # TanStack Query provider
+│   ├─ hooks/              # Custom React hooks
 │   │   ├─ use-mobile.ts
 │   │   ├─ useLogout.tsx
-│   │   └─ useToken.ts
-│   ├─ lib/               # Library utilities and configurations
+│   ├─ lib/                # Library utilities and configurations
 │   │   ├─ socket.ts
-│   │   ├─ supabase.ts    # Supabase client configuration
-│   ├─ middleware/        # Middleware for routing and auth
+│   │   ├─ supabase.ts     # Supabase client configuration
+│   │   └─ supebase.ts     # (Possible duplicate/typo of supabase.ts)
+│   ├─ middleware/         # Middleware for routing and auth
 │   │   └── authMiddleware.ts
-│   ├─ routes/            # Routing configuration
+│   ├─ pages/              # Page components for routing (using TanStack React Router with file-based routing)
+│   │   ├─ NotFound.tsx
+│   │   ├─ (auth)/         # Auth-related pages
+│   │   ├─ (dashboard)/    # Dashboard pages
+│   │   ├─ (information)/  # Information pages (corrected from 'infromation')
+│   │   └─ (root)/         # Root pages
+│   ├─ routes/             # Routing configuration (TanStack React Router)
 │   │   ├─ _root.tsx
 │   │   └─ routers/
 │   │       ├─ dash.routes.ts
 │   │       └─ root.route.ts
-│   ├─ services/          # API services (fetch/axios calls, API integration)
-│   │   ├─ appUrl..ts
-│   │   └─ axios.ts
-│   ├─ styles/            # Application styling
-│   ├─ types/             # Global TypeScript type definitions
-│   │   ├─ app.types.ts
+│   ├─ styles/             # Application styling
+│   ├─ types/              # Global TypeScript type definitions
 │   │   ├─ app/
 │   │   │   └── auth.type.ts
 │   │   └─ lib-defs/
 │   │       └── env.d.ts
-│   ├─ utils/             # General utility functions (helpers, formatters)
-│   │   ├─ redirect.ts
-│   │   ├─ redirectByRole.ts
-│   │   └─ utils.ts       # Library-specific utilities
-│   ├─ validators/        # Validation schemas (e.g., using Zod)
-│   │   └── auth.validator.ts
-│   ├─ index.css          # Global CSS styles (includes Tailwind directives)
-│   └─ main.tsx           # Application entry point (renders React to DOM)
-├─ .env                   # Environment variables (NOT committed to git)
-├─ .env.example           # Template for environment variables with examples
-├─ .gitignore            # Git ignore rules
-├─ components.json       # UI component registry (often for shadcn/ui)
-├─ eslint.config.js      # ESLint configuration
-├─ index.html            # HTML entry point
-├─ package-lock.json     # NPM dependency lock file
-├─ package.json          # Project dependencies and scripts
-├─ postcss.config.js     # PostCSS configuration (processes Tailwind CSS)
-├─ tailwind.config.js    # Tailwind CSS configuration
-├─ tsconfig.app.json     # TypeScript config for application code
-├─ tsconfig.json         # Main TypeScript configuration
-├─ tsconfig.node.json    # TypeScript config for Node/bundler code
-└── vite.config.ts        # Vite build tool configuration
+│   └─ utils/              # General utility functions (helpers, formatters)
+│       ├─ redirect.ts
+│       └─ utils.ts
+├─ .gitignore              # Git ignore rules
+├─ components.json         # UI component registry (for shadcn/ui)
+├─ eslint.config.js        # ESLint configuration
+├─ index.html              # HTML entry point
+├─ package-lock.json       # NPM dependency lock file
+├─ package.json            # Project dependencies and scripts
+├─ postcss.config.js       # PostCSS configuration (processes Tailwind CSS)
+├─ tailwind.config.js      # Tailwind CSS configuration
+├─ tsconfig.app.json       # TypeScript config for application code
+├─ tsconfig.json           # Main TypeScript configuration
+├─ tsconfig.node.json      # TypeScript config for Node/bundler code
+└── vite.config.ts         # Vite build tool configuration
 ```
 
 ## Folder Structure Explained
@@ -76,51 +66,47 @@ Here's a breakdown of what each folder in the project is for:
 
 *   **`src/`**: This is where all your application's source code lives.
 
-    *   **`app/`**: Contains the main page components for your application. When using a library like React Router, each file often corresponds to a specific route or view.
+    *   **`App.tsx`**: Main application component that sets up providers and routing.
 
     *   **`assets/`**: For static assets like images, icons, and fonts that you import directly into your components. These assets are processed and bundled by Vite.
 
-    *   **`components/`**: Holds reusable UI components (e.g., `Button`, `Card`, `Modal`). This is often where components from UI libraries like `shadcn/ui` are placed.
+    *   **`components/`**: Holds reusable UI components (e.g., `Button`, `Card`, `Modal` from shadcn/ui). Subfolders include `layout/` for layout components like `LoadingPage.tsx` and `ui/` for primitive UI elements.
 
-    *   **`hooks/`**: Contains custom React hooks (e.g., `useAuth`, `useLocalStorage`) that encapsulate and reuse stateful logic across components.
+    *   **`contexts/`**: React contexts for global state management, including `TanstackProvider.tsx` for TanStack Query (React Query).
 
-    *   **`contexts/`**: React contexts for global state management, such as Tanstack (React Query) provider.
+    *   **`hooks/`**: Custom React hooks for logic reuse, including `use-mobile.ts` for mobile detection, `useLogout.tsx` for logout functionality.
 
-    *   **`db/`**: Database API definitions and queries, e.g., auth-related API calls.
+    *   **`lib/`**: Library initializations and utilities, including `supabase.ts` for Supabase client configuration and `socket.ts` for socket connections.
 
-    *   **`hooks/`**: Custom React hooks for logic reuse, including mobile detection, logout, and token management.
+    *   **`middleware/`**: Middleware for routing and authentication, such as `authMiddleware.ts`.
 
-    *   **`lib/`**: Library initializations and utilities, including Supabase client in `supabase.ts` and socket connections.
+    *   **`pages/`**: Contains the main page components for your application using TanStack React Router with file-based routing. Subfolders like `(auth)/`, `(dashboard)/`, `(information)/`, `(root)/` group related pages.
 
-    *   **`middleware/`**: Custom middleware for authentication and routing guards.
+    *   **`routes/`**: Routing configuration using TanStack React Router, including `_root.tsx` and subfolder `routers/` with `dash.routes.ts` and `root.route.ts`.
 
-    *   **`routes/`**: Routing setup using React Router, with root and dashboard routes.
+    *   **`styles/`**: Centralized application styling files.
 
-    *   **`services/`**: API service layers using Axios for backend interactions.
+    *   **`types/`**: Global TypeScript type definitions, including `app/auth.type.ts` for auth types and `lib-defs/env.d.ts` for environment types.
 
-    *   **`styles/`**: Centralized styling files and configurations.
+    *   **`utils/`**: General utility functions, such as `redirect.ts` for navigation helpers and `utils.ts` for general helpers.
 
-    *   **`types/`**: TypeScript type definitions for app, auth, and environment.
-
-    *   **`utils/`**: Utility functions for redirects, formatting, and general helpers.
-
-    *   **`validators/`**: Zod-based validation schemas, e.g., for auth forms.
 
 ## Tech Stack
 
-This project is built using the following technologies:
+This project is built using the following technologies (versions from package.json):
 
-- **Frontend Framework**: React (v19.2.0) with TypeScript
+- **Frontend Framework**: React (v19.2.0) with TypeScript (TSX files)
 - **Build Tool**: Vite (v7.2.4)
 - **Styling**: Tailwind CSS (v3.4.18) with PostCSS and Autoprefixer
-- **Routing**: React Router DOM (v7.10.1)
+- **Routing**: TanStack React Router (v1.140.1) with file-based routing (react-router-dom v7.10.1 as fallback/secondary)
+- **Data Management**: TanStack Query (v5.90.12) for server-state management and caching
 - **Backend & Authentication**: Supabase (@supabase/supabase-js v2.86.2)
+- **Real-time**: Socket.io-client (v4.8.1)
 - **HTTP Client**: Axios (v1.13.2)
 - **Icons**: Lucide React (v0.555.0)
-- **Validation**: Zod (v4.1.13)
 - **UI Components**: shadcn/ui (based on components.json)
-- **Utilities**: clsx, tailwind-merge, class-variance-authority, tailwindcss-animate
-- **Development Tools**: ESLint, TypeScript, PostCSS
+- **Utilities**: clsx (v2.1.1), tailwind-merge (v3.4.0), class-variance-authority (v0.7.1), tailwindcss-animate (v1.0.7)
+- **Development Tools**: ESLint (v9.39.1), TypeScript (v5.9.3), PostCSS (v8.5.6), @tailwindcss/vite (v4.1.17)
 
 # Project Setup with Supabase and Google OAuth
 
@@ -129,7 +115,7 @@ This project is built using the following technologies:
 1. **Clone the Repository**
    Run the following command to download the project code to your local machine:
    ```bash
-   git clone https://github.com/BanSimplified567/bansimplified-boilerplete-using-react.git
+   git clone https://github.com/BanSimplified567/bansimplified-react-boilerplate.git
    ```
    Replace the URL with your actual Git repository if different.
 
@@ -137,7 +123,6 @@ This project is built using the following technologies:
    ```bash
    cd bansimplified-react-boilerplate
    ```
-   Adjust the directory name if it differs.
 
 3. **Install Dependencies**
    ```bash
@@ -145,8 +130,8 @@ This project is built using the following technologies:
    ```
    This will install all required Node.js packages listed in `package.json`.
 
-4. **Create Supabase Connection File**
-   Ensure `src/lib/supabase.ts` exists with the following content to set up the Supabase client:
+4. **Verify Supabase Connection File**
+   The file `src/lib/supabase.ts` should exist with content to set up the Supabase client (update if needed):
    ```ts
    import { createClient } from '@supabase/supabase-js';
 
@@ -159,19 +144,22 @@ This project is built using the following technologies:
    ```
 
 5. **Create Environment Variables Example File**
-   Create a `.env.example` file in the root directory with placeholder values for Supabase and Google OAuth configuration:
+   Create a `.env.example` file in the root directory (if not present) with placeholder values for Supabase and Google OAuth configuration:
    ```env
    VITE_SUPABASE_URL=your_supabase_project_url_here
    VITE_SUPABASE_ANON_KEY=your_supabase_anon_key_here
    VITE_GOOGLE_CLIENT_ID=your_google_client_id_here
    VITE_GOOGLE_CLIENT_SECRET=your_google_client_secret_here
+   VITE_GITHUB_CLIENT_ID=your_github_client_id_here
+   VITE_GITHUB_CLIENT_SECRET=your_github_client_secret_here
    ```
 
 6. **Set Up Environment Variables**
-   Copy `.env.example` to `.env` and fill in your actual keys:
+   Copy `.env.example` to `.env` (create if needed) and fill in your actual keys:
    ```bash
-   cp .env.example .env
+   copy .env.example .env
    ```
+   (Use `copy` on Windows; adjust for your OS.)
 
 7. **Set Up Google OAuth**
    To integrate Google OAuth with Supabase:
@@ -234,4 +222,4 @@ This project is built using the following technologies:
    ```bash
    npm run dev
    ```
-   Verify Supabase connection, Google, and GitHub OAuth by testing login flows, checking browser console for errors, and ensuring redirects work with the Supabase callback.
+   Open http://localhost:5173 (default Vite port). Verify Supabase connection, TanStack Query setup in contexts, routing with TanStack React Router, Google and GitHub OAuth by testing login flows, checking browser console for errors, and ensuring redirects/auth middleware work with the Supabase callback.
