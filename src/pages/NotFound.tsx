@@ -1,19 +1,32 @@
-// src/components/NotFound.tsx
-import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from '@tanstack/react-router';
 
-export const NotFound: React.FC = () => (
-  <main className="flex flex-col items-center justify-center min-h-screen bg-white">
-    <h1 className="text-7xl font-extrabold text-red-600">404</h1>
-    <h2 className="text-3xl font-semibold mt-4">Page Not Found</h2>
-    <p className="mt-2 text-gray-500">
-      Sorry, we couldn’t find the page you’re looking for.
-    </p>
-    <Link
-      to="/"
-      className="mt-6 px-6 py-3 bg-blue-600 text-white rounded shadow hover:bg-blue-700 transition"
-    >
-      Return Home
-    </Link>
-  </main>
-);
+const NotFound = () => {
+
+  return (
+    <div className="index-error-container">
+      <div className="index-error-box">
+        <h1 className="index-error-code">404</h1>
+        <h2 className="index-error-title">Page Not Found</h2>
+        <div className="index-error-divider"></div>
+
+        <p className="index-error-message">
+          Oops! The page you're looking for doesn't exist or has been moved.
+        </p>
+
+        <div className="index-error-actions">
+          { userData?.role === 'customer' ? (
+            <Link to="/" className="index-error-button-primary">
+              Back to Home
+            </Link>
+          ) : (
+            <Link to="/" className="index-error-button-primary">
+              Go to Admin Login
+            </Link>
+          ) }
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default NotFound;

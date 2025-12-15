@@ -1,8 +1,8 @@
 import { supabase } from '@/lib/supabase';
 import { buildRedirect } from '@/utils/redirect';
+import { Link } from '@tanstack/react-router';
 import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 const SignupForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');

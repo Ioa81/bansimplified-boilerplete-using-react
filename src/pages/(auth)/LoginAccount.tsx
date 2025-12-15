@@ -1,58 +1,86 @@
 import { supabase } from '@/lib/supabase';
 import { buildRedirect } from '@/utils/redirect';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState<string>('');
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleEmailLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
+  // Load saved email from localStorage on mount
+  useEffect(() => {
+    const savedEmail = localStorage.getItem('rememberedEmail');
+    if (savedEmail) {
+      setEmail(savedEmail);
+      setRememberMe(true);
+    }
+  }, []);
 
-    try {
-      const { data, error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: buildRedirect('/auth/callback'),
-        },
-      });
+ const handleEmailLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setLoading(true);
+  setError(null);
 
-      if (error) {
-        setError(error.message);
-        return;
+  try {
+    if (rememberMe) {
+      localStorage.setItem('rememberedEmail', email);
+      localStorage.setItem('rememberMe', 'true');
+    } else {
+      localStorage.removeItem('rememberedEmail');
+      localStorage.removeItem('rememberMe');
+    }
+
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google', // Or implement email provider
+      options: {
+        redirectTo: buildRedirect('/auth/callback'),
+        queryParams: {
+          login_hint: email, // Pre-fill email
+        }
       }
+    });
 
-      alert('Check your email for the login link!');
-    } catch (err) {
-      setError((err as Error).message);
-    } finally {
-      setLoading(false);
+    if (error) throw error;
+  } catch (err) {
+    setError((err as Error).message);
+  } finally {
+    setLoading(false);
+  }
+};
+
+const handleOAuthLogin = async (provider: 'google' | 'github') => {
+  setLoading(true);
+  setError(null);
+
+  try {
+    // Persist remember me preference
+    if (rememberMe) {
+      localStorage.setItem('rememberMe', 'true');
+    } else {
+      localStorage.removeItem('rememberMe');
     }
-  };
 
-
-  const handleOAuthLogin = async (provider: 'google' | 'github') => {
-
-    setLoading(true);
-    setError(null);
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: buildRedirect('/auth/callback')
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: buildRedirect('/auth/callback'),
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent'
         },
-      });
-      if (error) throw error;
-    } catch (err) {
-      setError((err as Error).message);
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
-  };
+        // Add PKCE-specific options
+        skipBrowserRedirect: false, // Let Supabase handle the redirect
+      }
+    });
+
+    if (error) throw error;
+  } catch (err) {
+    setError((err as Error).message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleForgotPassword = async () => {
     if (!email) {
@@ -120,19 +148,17 @@ const LoginForm: React.FC = () => {
             />
           </div>
 
-          {/* Submit Button */ }
-
-          <button
-            type="submit"
-            disabled={ loading }
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-          >
-            { loading ? 'Sending...' : 'Send Confirmation Email' }
-          </button>
-
-
-          {/* Forgot */ }
-          <div className="flex justify-end">
+          {/* Remember Me Checkbox */ }
+          <div className="flex items-center justify-between">
+            <label className="flex items-center">
+              <input
+                type="checkbox"
+                checked={ rememberMe }
+                onChange={ (e) => setRememberMe(e.target.checked) }
+                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+              />
+              <span className="ml-2 text-xs text-gray-700">Remember me</span>
+            </label>
             <button
               type="button"
               onClick={ handleForgotPassword }
@@ -141,6 +167,15 @@ const LoginForm: React.FC = () => {
               Forgot password?
             </button>
           </div>
+
+          {/* Submit Button */ }
+          <button
+            type="submit"
+            disabled={ loading }
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+          >
+            { loading ? 'Sending...' : 'Send Confirmation Email' }
+          </button>
 
 
         </form>
